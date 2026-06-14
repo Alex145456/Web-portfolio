@@ -3,10 +3,23 @@ import flet as ft
 from components.section import formula_box, info_card, page_header
 
 
+def normalize_video_url(url: str) -> str:
+    if not url:
+        return url
+    if "drive.google.com/file/d/" in url:
+        file_id = url.split("/d/")[1].split("/")[0]
+        return f"https://drive.google.com/uc?export=download&id={file_id}"
+    if "drive.google.com/open?id=" in url:
+        file_id = url.split("open?id=")[1].split("&")[0]
+        return f"https://drive.google.com/uc?export=download&id={file_id}"
+    return url
+
+
 POSTS = [
     {
         "title": "Confidence in Metallurgical Cost Estimation",
-        "video": "https://samplelib.com/lib/preview/mp4/sample-5s.mp4",
+        "video": "https://files.catbox.moe/mcrrfa.mp4",
+        "backup_url": "https://drive.google.com/file/d/1bv67HR6OACawJerdlj6pCmjw1-70tduY/view?usp=sharing",
         "summary": "A technical note explaining how reagent, energy, feed, and labour quantities combine into a defensible metallurgical process estimate.",
         "formula": "Total Cost = \u03a3(Q\u1d62 \u00d7 P\u1d62) + Overheads",
         "explanation": "Q\u1d62 is the quantity of item i, P\u1d62 is its unit price, and the summation adds every project item before overheads are included.",
@@ -28,11 +41,16 @@ POSTS = [
 ]
 
 
-def video_insert(page: ft.Page, url: str) -> ft.Control:
-    # Flet 0.85.3 does not include ft.Video / ft.VideoMedia.
-    # Use a placeholder and let the user open the MP4 externally.
+def video_insert(page: ft.Page, url: str, backup_url: str | None = None) -> ft.Control:
+    # Flet 0.85.3 does not support inline video playback controls.
+    # Use a clean external source button instead.
+    target_url = normalize_video_url(backup_url or url)
+    button_label = "Open Google Drive Video" if backup_url else "Open Video"
+    helper_text = (
+        "Open the backup Google Drive source to play the video." if backup_url else "Open the video to play it in your browser."
+    )
+
     return ft.Container(
-        height=190,
         padding=ft.Padding.all(16),
         border_radius=8,
         bgcolor="#08182b",
@@ -54,31 +72,31 @@ def video_insert(page: ft.Page, url: str) -> ft.Control:
                 ),
                 ft.Container(height=10),
                 ft.Text(
-                    "Inline playback is unavailable in this Flet version.",
+                    helper_text,
                     size=12,
                     color="#9fb1c8",
                 ),
-                ft.Text(
-                    url,
-                    size=11,
-                    color="#94a3b8",
-                    selectable=True,
-                ),
                 ft.Container(height=12),
                 ft.ElevatedButton(
-                    "Open Video",
+                    button_label,
                     icon=ft.Icons.OPEN_IN_NEW,
                     style=ft.ButtonStyle(
                         color="#ffffff",
                         bgcolor="#0ea5e9",
                         shape=ft.RoundedRectangleBorder(radius=10),
                     ),
-                    on_click=lambda e: page.launch_url(url),
+                    on_click=lambda e: page.launch_url(target_url),
+                ),
+                ft.Container(height=10),
+                ft.Text(
+                    target_url,
+                    size=11,
+                    color="#94a3b8",
+                    selectable=True,
                 ),
             ],
-            alignment=ft.MainAxisAlignment.CENTER,
+            spacing=10,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=8,
         ),
     )
 
@@ -96,7 +114,7 @@ def blog_post(page: ft.Page, post: dict) -> ft.Container:
                 ft.Text(post["title"], size=20, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE),
                 ft.Text(post["summary"], size=13, color="#b6c6dc"),
                 formula_box(post["formula"], post["explanation"]),
-                video_insert(page, post["video"]),
+                video_insert(page, post["video"], post.get("backup_url")),
             ],
             spacing=14,
         ),

@@ -114,7 +114,11 @@ def blog_post(page: ft.Page, post: dict) -> ft.Container:
                 ft.Text(post["title"], size=20, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE),
                 ft.Text(post["summary"], size=13, color="#b6c6dc"),
                 formula_box(post["formula"], post["explanation"]),
+                # Inline video playback isn't available in this Flet version.
+                # The app provides a playable link in a new tab (no embedded player).
+
                 video_insert(page, post["video"], post.get("backup_url")),
+
             ],
             spacing=14,
         ),

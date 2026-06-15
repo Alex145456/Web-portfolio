@@ -17,28 +17,14 @@ def normalize_video_url(url: str) -> str:
 
 POSTS = [
     {
-        "title": "Confidence in Metallurgical Cost Estimation",
-        "video": "https://files.catbox.moe/mcrrfa.mp4",
-        "backup_url": "https://drive.google.com/file/d/1bv67HR6OACawJerdlj6pCmjw1-70tduY/view?usp=sharing",
-        "summary": "A technical note explaining how reagent, energy, feed, and labour quantities combine into a defensible metallurgical process estimate.",
-        "formula": "Total Cost = \u03a3(Q\u1d62 \u00d7 P\u1d62) + Overheads",
-        "explanation": "Q\u1d62 is the quantity of item i, P\u1d62 is its unit price, and the summation adds every project item before overheads are included.",
-    },
-    {
-        "title": "Mass Balance Reasoning",
-        "video": "https://samplelib.com/lib/preview/mp4/sample-10s.mp4",
-        "summary": "A short explanation of how mass balance supports metallurgical process checks and reduces reporting errors.",
-        "formula": "Input Mass = Product Mass + Waste Mass + Losses",
-        "explanation": "This relation is used to check whether measured stream outputs are physically consistent with feed inputs.",
-    },
-    {
-        "title": "Metallurgical Recovery Calculation",
+        "title": "Reflection",
         "video": "https://samplelib.com/lib/preview/mp4/sample-15s.mp4",
-        "summary": "A concept explanation for checking how much valuable product is recovered from a feed stream.",
-        "formula": "Recovery (%) = (Valuable Product / Valuable Feed) \u00d7 100",
-        "explanation": "Recovery measures the percentage of target material captured in the product stream instead of being lost to waste or tailings.",
+        "summary": "Personal reflection on what was learned and how the calculations connect to real engineering decisions.",
+        "formula": "N/A",
+        "explanation": "A short reflection describing the reasoning behind the work and key takeaways.",
     },
 ]
+
 
 
 def video_insert(page: ft.Page, url: str, backup_url: str | None = None) -> ft.Control:

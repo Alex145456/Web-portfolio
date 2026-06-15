@@ -1,9 +1,7 @@
-# TODO - Linear & Professional Home Page
+# TODO - Fix: missing components.video_player
 
-- [ ] Review existing `pages/home.py` and identify layout improvements for a more linear, professional look.
-- [ ] Update `build_home_page` to use a cleaner vertical (linear) flow with consistent spacing and typography.
-- [ ] Add a professional hero header and a focused CTA row.
-- [ ] Simplify/standardize the “Focus Board” into a single column list (instead of multi-row cards).
-- [ ] Keep the lower section cards but align styles and spacing for consistency.
-- [x] Run the app to ensure it still renders and routing works
+- [x] Identify that the failing import is in `Downloads/New project 2/pages/blog.py`.
+- [x] Verify that `Downloads/New project 2/components/video_player.py` is missing.
+- [x] Create `Downloads/New project 2/components/video_player.py` implementing `video_card` (and helper functions).
+- [ ] Re-run `Downloads/New project 2/main.py` to confirm the module import error is resolved.
 

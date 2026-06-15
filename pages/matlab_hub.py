@@ -3,6 +3,15 @@ import flet as ft
 from components.section import info_card, page_header
 
 
+def asset_url(rel_path: str) -> str:
+
+    """Convert a relative path inside the `assets/` folder into a URL served by Flet."""
+    if not rel_path:
+        return rel_path
+    rel_path = rel_path.lstrip("/")
+    return f"/assets/{rel_path}"
+
+
 COURSES = [
     {
         "name": "MATLAB Onramp",
@@ -35,6 +44,7 @@ COURSES = [
 def certificate_card(index: int, course: dict, page: ft.Page) -> ft.Container:
     uploaded = course["file"] is not None
     cert_route = f"/certificate/{index - 1}"
+    file_url = asset_url(course["file"]) if uploaded else None
     return ft.Container(
         padding=ft.Padding.all(16),
         border_radius=8,
@@ -81,7 +91,7 @@ def certificate_card(index: int, course: dict, page: ft.Page) -> ft.Container:
                             icon=ft.Icons.OPEN_IN_NEW,
                             icon_color="#61a5ff" if uploaded else "#34465d",
                             tooltip="Open PDF in browser",
-                            url=course["file"] if uploaded else None,
+                            url=asset_url(course["file"]) if uploaded else None,
                             disabled=not uploaded,
                         ),
                     ],
@@ -174,7 +184,8 @@ def build_certificate_page(page: ft.Page, route: str) -> ft.Control:
         )
 
     course = COURSES[index]
-    file_url = course["file"]
+    file_url = asset_url(course["file"])
+
     return ft.Column(
         controls=[
             page_header(course["name"], "Certificate preview inside the Flet portfolio.", ft.Icons.MILITARY_TECH),

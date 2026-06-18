@@ -75,7 +75,7 @@ def commit_tile(commit: dict, page: ft.Page) -> ft.Container:
                                 bgcolor="#08182b",
                                 border=ft.Border.only(left=ft.BorderSide(3, CYAN)),
                                 content=(
-                                    ft.Image(src=f"assets/github/{commit.get('file')}", width=220, height=140, fit="contain")
+                                    ft.Image(src=f"/assets/github/{commit.get('file')}", width=220, height=140, fit="contain") if commit.get('file') else None
                                     if commit.get("file")
                                     else ft.Column(
                                         controls=[
@@ -171,7 +171,7 @@ def _open_commit_dialog(page: ft.Page, commit: dict):
             spacing=12,
             controls=[
                 ft.Text(commit.get("summary_long", ""), size=12, color=TEXT_P),
-                (ft.Image(src=f"assets/github/{commit.get('file')}", width=520, height=320, fit="contain")
+                (ft.Image(src=f"/assets/github/{commit.get('file')}", width=520, height=320, fit="contain")
                  if commit.get('file') else ft.Text("", size=0)),
             ]
         ),
@@ -225,8 +225,8 @@ def _open_image_dialog(page: ft.Page, img_file: str):
         content=ft.Container(
             width=900,
             height=650,
-            content=ft.Image(
-                src=f"assets/github/{img_file}",
+                content=ft.Image(
+                    src=f"/assets/github/{img_file}"
                 width=900,
                 height=650,
                 fit="contain",
@@ -289,7 +289,7 @@ def pr_tile(pr: dict, page: ft.Page) -> ft.Container:
                 content=ft.Column(
                     spacing=8,
                     controls=[
-                        ft.Image(src=f"assets/github/{pr.get('image')}", width=520, height=320, fit="contain"),
+                        ft.Image(src=f"/assets/github/{pr.get('image')}", width=520, height=320, fit="contain"),
                         ft.Row(
                             alignment=ft.MainAxisAlignment.END,
                             controls=[
